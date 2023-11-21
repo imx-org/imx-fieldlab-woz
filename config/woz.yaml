@@ -1,0 +1,25 @@
+objectTypes:
+  WOZObject:
+    attributes:
+      id:
+        type: String
+        identifier: true
+        cardinality: 1
+      addressableObjectId:
+        type: String
+        cardinality: 1
+#      stakeholderOwner: TODO Nested object
+#        cardinality: 0..1
+#      stakeholderOccupant: TODO Nested object
+#        cardinality: 0..1
+#      values: TODO Nested object
+#        cardinality: 0..*
+      registeredPeople:
+        type: Integer
+        cardinality: 1
+      type:
+        type: String
+        cardinality: 1
+      createdAt:
+        type: DateTime
+        cardinality: 1
