@@ -6,7 +6,6 @@ RUN mkdir /opt/app
 
 COPY target/imx-fieldlab-woz-*.jar /opt/app/app.jar
 COPY config /opt/app/config
-COPY data /opt/app/data
 
 WORKDIR /opt/app
 
