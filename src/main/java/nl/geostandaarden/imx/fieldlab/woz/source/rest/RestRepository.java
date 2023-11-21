@@ -29,8 +29,7 @@ public class RestRepository implements DataRepository {
     return httpClient.get()
         .uri(getObjectURI(request))
         .responseSingle((response, content) -> content.asInputStream())
-        .map(this::parseContent)
-        .onErrorReturn(Map.of("id", "123", "type", "T1"));
+        .map(this::parseContent);
   }
 
   @Override
