@@ -20,6 +20,6 @@ objectTypes:
       type:
         type: String
         cardinality: 1
-      createdAt:
-        type: DateTime
-        cardinality: 1
+#      createdAt:
+#        type: DateTime
+#        cardinality: 1

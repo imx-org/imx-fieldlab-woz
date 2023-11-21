@@ -24,3 +24,9 @@ orchestrate:
   sources:
     bag:
       type: rest
+      options:
+        baseUrl: https://fds-gemeente-zonnendaal.apps.digilab.network/api
+    woz:
+      type: rest
+      options:
+        baseUrl: https://fds-kadaster.apps.digilab.network/api

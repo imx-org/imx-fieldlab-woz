@@ -14,11 +14,23 @@ lineageNameMapping:
 
 targetModel:
   loader: yaml
-  location: config/model.xml
+  location: config/model.yaml
 
 sourceModels:
   bag:
-    loader: mim
+    loader: yaml
     location: config/bag.yaml
+  woz:
+    loader: yaml
+    location: config/woz.yaml
 
-objectTypeMappings: {}
+objectTypeMappings:
+  WozBeschikking:
+    sourceRoot: woz:WOZObject
+    propertyMappings:
+      id:
+        pathMappings:
+          path: id
+      type:
+        pathMappings:
+          path: type
