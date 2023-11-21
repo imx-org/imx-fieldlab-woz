@@ -26,6 +26,9 @@ orchestrate:
       type: rest
       options:
         baseUrl: https://fds-gemeente-zonnendaal.apps.digilab.network/api
+        paths:
+          WOZObject: woz-objects
+
     woz:
       type: rest
       options:

@@ -24,6 +24,6 @@ public class RestSourceType implements SourceType {
         .orElseThrow(() -> new RuntimeException(
             String.format("Source '%s' requires a 'baseUrl' option.", model.getAlias())));
 
-    return new RestSource(baseUrl);
+    return new RestSource(new RestSource.Options(baseUrl, Map.of()));
   }
 }
