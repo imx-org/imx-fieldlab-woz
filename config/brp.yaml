@@ -1,0 +1,41 @@
+objectTypes:
+  Address:
+    attributes:
+      id:
+        type: String
+        identifier: true
+        cardinality: 1
+      bsn:
+        type: String
+        cardinality: 0..1
+      name:
+        type: String
+        cardinality: 0..1
+#      bornAt:
+#        type: DateTime
+#        cardinality: 0..1
+      sex:
+        type: String
+        cardinality: 0..1
+#      diedAt:
+#        type: DateTime
+#        cardinality: 0..1
+      registeredAddressId:
+        type: String
+        cardinality: 0..1
+#    relations:
+#      partners:
+#        target: Person
+#        cardinality: 0..*
+#        inverseName: partners # TODO symmetric??
+#        inverseCardinality: 0..* # ?
+#      children:
+#        target: Person
+#        cardinality: 0..*
+#        inverseName: parents # TODO symmetric??
+#        inverseCardinality: 0..* # ?
+#      parents:
+#        target: Person
+#        cardinality: 0..*
+#        inverseName: children # TODO symmetric??
+#        inverseCardinality: 0..* # ?
