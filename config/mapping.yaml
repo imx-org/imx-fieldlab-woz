@@ -13,9 +13,12 @@ lineageNameMapping:
   wasDerivedFrom: isAfgeleidVan
 
 targetModel:
-  loader: mim
+  loader: yaml
   location: config/model.xml
 
-sourceModels: {}
+sourceModels:
+  bag:
+    loader: mim
+    location: config/bag.yaml
 
 objectTypeMappings: {}

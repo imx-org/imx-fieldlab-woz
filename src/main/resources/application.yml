@@ -21,4 +21,6 @@ management:
 
 orchestrate:
   mapping: config/mapping.yaml
-  sources: {}
+  sources:
+    bag:
+      type: rest
