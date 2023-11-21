@@ -1,0 +1,21 @@
+lineageNameMapping:
+  hasLineage: geregistreerdMet
+  ObjectLineage: Registratie
+  orchestratedDataElements: bestaatUit
+  OrchestratedDataElements: GeorkestreerdGegeven
+  SourceDataElement: Brongegeven
+  ObjectReference: Object
+  subject: onderwerp
+  property: kenmerk
+  value: waarde
+  objectKey: identificatie
+  objectType: type
+  wasDerivedFrom: isAfgeleidVan
+
+targetModel:
+  loader: mim
+  location: config/model.xml
+
+sourceModels: {}
+
+objectTypeMappings: {}
