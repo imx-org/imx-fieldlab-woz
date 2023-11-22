@@ -25,14 +25,14 @@ orchestrate:
     bag:
       type: rest
       options:
-        baseUrl: ${OUTWAY_URL:http://fds-fieldlab-fsc-outway.apps.digilab.network}
+        baseUrl: ${OUTWAY_URL:https://fds-fieldlab-fsc-outway.apps.digilab.network}
         headers:
           Fsc-Grant-Hash: $1$4$5AXwjdwNYt-Q6yE5KFVa7BLXghsBsDCqNge9_iSD1ZGwTlvr4kzsc_G0bUBz7XkCEmPsZ-8oDXRAwYxh_pQCgQ
 
     woz:
       type: rest
       options:
-        baseUrl: ${OUTWAY_URL:http://fds-fieldlab-fsc-outway.apps.digilab.network}
+        baseUrl: ${OUTWAY_URL:https://fds-fieldlab-fsc-outway.apps.digilab.network}
         headers:
           Fsc-Grant-Hash: $1$4$8ZOWR32hmvAL9UiFZ8ZvZRIGs6O5OlqdDLujRn7u8RdQXqasx94mt9pV0zFWzlXPadb8IXSatlIwcTbk2YOHwA
         paths:
