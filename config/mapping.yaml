@@ -23,14 +23,39 @@ sourceModels:
   woz:
     loader: yaml
     location: config/woz.yaml
+  brp:
+    loader: yaml
+    location: config/brp.yaml
 
 objectTypeMappings:
-  WozBeschikking:
+  Beschikking:
     sourceRoot: woz:WOZObject
     propertyMappings:
-      id:
+      identificatie:
         pathMappings:
           path: id
       type:
         pathMappings:
           path: type
+      adres:
+        pathMappings:
+          path: heeftAlsAdres
+      isVoorObject:
+        pathMappings:
+          path:
+      #      steltVast:
+      #        pathMappings:
+      #          path: heeftWaarde
+      isVoor:
+        pathMappings:
+          path: stakeholderOwner[0].bsn
+
+  Waarde:
+    sourceRoot: woz:WOZObject
+    propertyMappings:
+      identificatie:
+        pathMappings:
+          path: values[0].id
+      vastgesteldeWaarde:
+        pathMapping:
+          path: values[0].value
