@@ -12,13 +12,23 @@ objectTypes:
 #        cardinality: 0..1
 #      stakeholderOccupant: TODO Nested object
 #        cardinality: 0..1
-#      values: TODO Nested object
-#        cardinality: 0..*
-      registeredPeople:
+      values[0].id:
+        type: String
+        cardinality: 1
+      values[0].wozObjectId:
+        type: String
+        cardinality: 1
+      values[0].value:
         type: Integer
         cardinality: 1
+#      values[0].valuationAt:
+#        type: DateTime
+#        cardinality: 1
+#      registeredPeople:
+#        type: DateTime
+#        cardinality: 1
       type:
-        type: String
+        type: String # Enum: [residential, non-residential]
         cardinality: 1
 #      createdAt:
 #        type: DateTime
