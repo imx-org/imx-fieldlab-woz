@@ -1,6 +1,7 @@
 package nl.geostandaarden.imx.fieldlab.woz.source.rest;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +20,8 @@ import reactor.netty.http.client.HttpClient;
 @RequiredArgsConstructor
 public class RestRepository implements DataRepository {
 
-  private final JsonMapper jsonMapper = new JsonMapper();
+  private final ObjectMapper jsonMapper = new JsonMapper()
+      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
   private final HttpClient httpClient;
 
@@ -30,23 +32,18 @@ public class RestRepository implements DataRepository {
     return httpClient.get()
         .uri(getObjectURI(request))
         .responseSingle((response, content) -> content.asInputStream())
-        .map(this::parseContent)
+        .map(this::parseObject)
         .map(JsonMapFlattener::flatten);
   }
 
   @Override
   public Flux<Map<String, Object>> find(CollectionRequest request) {
-    return Flux.empty();
-  }
-
-  private String getCollectionURI(DataRequest request) {
-    var typeName = request.getObjectType()
-        .getName();
-
-    var path = Optional.ofNullable(paths.get(typeName))
-        .orElse(typeName);
-
-    return "/" + path;
+    return httpClient.get()
+        .uri(getCollectionURI(request))
+        .responseSingle((response, content) -> content.asInputStream())
+        .map(this::parseCollection)
+        .flatMapMany(resource -> Flux.fromIterable(resource.getData()))
+        .map(JsonMapFlattener::flatten);
   }
 
   private String getObjectURI(ObjectRequest request) {
@@ -60,11 +57,27 @@ public class RestRepository implements DataRepository {
         .concat("/" + objectKey);
   }
 
-  private Map<String, Object> parseContent(InputStream content) {
-    var typeRef = new TypeReference<Map<String, Object>>() {};
+  private String getCollectionURI(DataRequest request) {
+    var typeName = request.getObjectType()
+        .getName();
 
+    var path = Optional.ofNullable(paths.get(typeName))
+        .orElse(typeName);
+
+    return "/" + path;
+  }
+
+  private ObjectResource parseObject(InputStream content) {
     try {
-      return jsonMapper.readValue(content, typeRef);
+      return jsonMapper.readValue(content, ObjectResource.class);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private CollectionResource parseCollection(InputStream content) {
+    try {
+      return jsonMapper.readValue(content, CollectionResource.class);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
