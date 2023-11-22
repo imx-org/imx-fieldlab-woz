@@ -11,6 +11,7 @@ import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.DataRepository;
+import org.springframework.vault.support.JsonMapFlattener;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
@@ -29,7 +30,8 @@ public class RestRepository implements DataRepository {
     return httpClient.get()
         .uri(getObjectURI(request))
         .responseSingle((response, content) -> content.asInputStream())
-        .map(this::parseContent);
+        .map(this::parseContent)
+        .map(JsonMapFlattener::flatten);
   }
 
   @Override

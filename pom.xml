@@ -38,6 +38,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <orchestrate.version>0.0.12</orchestrate.version>
         <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-vault.version>3.0.4</spring-vault.version>
         <lombok.version>1.18.30</lombok.version>
         <auto-service.version>1.1.1</auto-service.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -54,6 +55,12 @@
             <artifactId>netty-resolver-dns-native-macos</artifactId>
             <version>4.1.100.Final</version>
             <classifier>osx-aarch_64</classifier>
+        </dependency>
+        <!-- for json flattening -->
+        <dependency>
+            <groupId>org.springframework.vault</groupId>
+            <artifactId>spring-vault-core</artifactId>
+            <version>${spring-vault.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
