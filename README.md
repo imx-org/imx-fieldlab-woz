@@ -138,7 +138,7 @@ Variables:
 
 Persoon query:
 
-```
+```graphql
 query Persoon {
   persoon(bsn: "971526034") {
     identificatie
