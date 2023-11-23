@@ -55,6 +55,15 @@ sourceRelations:
       inverseCardinality: 0..*
       keyMapping:
         id: registeredAddressId
+  - sourceType: bag:Address
+    property:
+      name: heeftPand
+      target: bag:Building
+      cardinality: 0..1
+      inverseName: isPandvanAdres
+      inverseCardinality: 0..*
+      keyMapping:
+        id: buildings[0].id
 
 objectTypeMappings:
   Beschikking:
@@ -79,6 +88,21 @@ objectTypeMappings:
       vastgesteldeWaarde:
         pathMapping:
           path: values[0].value
+      waardepeildatum:
+        pathMapping:
+          path: values[0].valuationAt
+          map:
+            type: cel
+            options:
+              expr: 'string(timestamp(result).getDate())+"-"+string(timestamp(result).getMonth())+"-"+string(timestamp(result).getFullYear())'
+      ingangsdatumWaarde:
+        pathMapping:
+          path: values[0].effectiveAt
+          map:
+            type: cel
+            options:
+              expr: 'string(timestamp(result).getFullYear())+"-"+string(timestamp(result).getMonth())+"-"+string(timestamp(result).getDate())'
+
 
   WozObject:
     sourceRoot: woz:WOZobject
@@ -105,6 +129,26 @@ objectTypeMappings:
       oppervlakte:
         pathMappings:
           path: surface
+      maaktDeelUitVan:
+        pathMappings:
+          path: heeftPand
+
+  Pand:
+    sourceRoot: bag:Pand
+    propertyMappings:
+      identificatie:
+        pathMappings:
+          path: id
+      totaaloppervlakte:
+        pathMappings:
+          path: surface
+      oorspronkelijkBouwjaar:
+        pathMappings:
+          path: constructedAt
+          map:
+            type: cel
+            options:
+              expr: 'timestamp(result).getFullYear()'
 
   Adres:
     sourceRoot: bag:Address
@@ -149,7 +193,6 @@ objectTypeMappings:
                 prefix: ', Gemeente '
         combiner:
           type: join
-
 
   Gemeente:
     sourceRoot: bag:Address

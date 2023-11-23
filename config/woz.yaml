@@ -22,9 +22,12 @@ objectTypes:
       values[0].value:
         type: Integer
         cardinality: 1
-#      values[0].valuationAt:
-#        type: DateTime
-#        cardinality: 1
+      values[0].valuationAt:
+        type: String
+        cardinality: 1
+      values[0].effectiveAt:
+        type: String
+        cardinality: 1
 #      registeredPeople:
 #        type: DateTime
 #        cardinality: 1

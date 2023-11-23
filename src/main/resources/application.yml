@@ -33,6 +33,7 @@ orchestrate:
           Fsc-Grant-Hash: $1$4$5AXwjdwNYt-Q6yE5KFVa7BLXghsBsDCqNge9_iSD1ZGwTlvr4kzsc_G0bUBz7XkCEmPsZ-8oDXRAwYxh_pQCgQ
         paths:
           Address: addresses
+          Building: buildings
 
     woz:
       type: rest

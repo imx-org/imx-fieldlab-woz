@@ -26,9 +26,12 @@ objectTypes:
       vastgesteldeWaarde:
         type: Integer
         cardinality: 1
-#      waardePeildatum:
-#        type: Date
-#        cardinality: 1
+      waardepeildatum:
+        type: String
+        cardinality: 1
+      ingangsdatumWaarde:
+        type: String
+        cardinality: 1
     relations:
       isVoor:
         target: WozObject
@@ -64,11 +67,29 @@ objectTypes:
         type: Integer
         cardinality: 1
     relations:
+      maaktDeelUitVan:
+        target: Pand
+        cardinality: 0..*
+        inverseName: bevat
+        inverseCardinality: 0..*
       hoofdAdres:
         target: Adres
         cardinality: 1
         inverseName: isHoofdadresVan
         inverseCardinality: 0..*
+
+  Pand:
+    attributes:
+      identificatie:
+        type: String
+        identifier: true
+        cardinality: 1
+      totaaloppervlakte:
+        type: Integer
+        cardinality: 0..1
+      oorspronkelijkBouwjaar:
+        type: String
+        cardinality: 1
 
   Adres:
     attributes:
