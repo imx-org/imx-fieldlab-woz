@@ -12,6 +12,7 @@ query ObjectQuery {
     identificatie
     steltVast {
       vastgesteldeWaarde
+      ingangsdatumWaarde
       isVoor {
         wozObjectnummer
         typeWozObject
@@ -58,6 +59,7 @@ query BatchQuery($keys: [BeschikkingKey!]!) {
     identificatie
     steltVast {
       vastgesteldeWaarde
+      ingangsdatumWaarde
       isVoor {
         wozObjectnummer
         typeWozObject
@@ -131,5 +133,44 @@ Variables:
       "identificatie": "74d00324-ba42-4fed-b2d6-cb14106a49cd"
     }
   ]
+}
+```
+
+Persoon query:
+
+```
+query Persoon {
+  persoon(bsn: "971526034") {
+    identificatie
+    bsn
+    naamAanschrijving
+    heeftBeschikking {
+      identificatie
+      steltVast {
+        vastgesteldeWaarde
+        ingangsdatumWaarde
+        isVoor {
+          wozObjectnummer
+          typeWozObject
+          ontleentAanduidingAan {
+            identificatie
+            gebruiksdoel
+            oppervlakte
+            hoofdAdres {
+              straatnaam
+              huisnummer
+              huisnummertoevoeging
+              postcode
+              omschrijving
+              gemeente {
+                code
+                naam
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 ```
