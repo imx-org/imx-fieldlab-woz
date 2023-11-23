@@ -8,10 +8,12 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.DataRepository;
+import nl.geostandaarden.imx.orchestrate.model.ObjectType;
 import org.springframework.vault.support.JsonMapFlattener;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -46,6 +48,22 @@ public class RestRepository implements DataRepository {
         .map(JsonMapFlattener::flatten);
   }
 
+  @Override
+  public Flux<Map<String, Object>> findBatch(BatchRequest request) {
+    return httpClient.get()
+        .uri(getBatchURI(request))
+        .responseSingle((response, content) -> content.asInputStream())
+        .map(this::parseBatch)
+        .flatMapMany(Flux::fromIterable)
+        .map(JsonMapFlattener::flatten)
+        .onErrorComplete();
+  }
+
+  @Override
+  public boolean supportsBatchLoading(ObjectType objectType) {
+    return true;
+  }
+
   private String getObjectURI(ObjectRequest request) {
     var objectKey = request.getObjectKey()
         .values()
@@ -67,6 +85,11 @@ public class RestRepository implements DataRepository {
     return "/" + path;
   }
 
+  private String getBatchURI(BatchRequest request) {
+    return getCollectionURI(request)
+        .concat("-many");
+  }
+
   private ObjectResource parseObject(InputStream content) {
     try {
       return jsonMapper.readValue(content, ObjectResource.class);
@@ -78,6 +101,14 @@ public class RestRepository implements DataRepository {
   private CollectionResource parseCollection(InputStream content) {
     try {
       return jsonMapper.readValue(content, CollectionResource.class);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private BatchResource parseBatch(InputStream content) {
+    try {
+      return jsonMapper.readValue(content, BatchResource.class);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
