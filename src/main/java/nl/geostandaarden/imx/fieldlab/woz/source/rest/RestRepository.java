@@ -1,5 +1,6 @@
 package nl.geostandaarden.imx.fieldlab.woz.source.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import nl.geostandaarden.imx.orchestrate.engine.OrchestrateException;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
@@ -17,6 +19,7 @@ import nl.geostandaarden.imx.orchestrate.model.ObjectType;
 import org.springframework.vault.support.JsonMapFlattener;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.netty.ByteBufFlux;
 import reactor.netty.http.client.HttpClient;
 
 @RequiredArgsConstructor
@@ -52,13 +55,29 @@ public class RestRepository implements DataRepository {
 
   @Override
   public Flux<Map<String, Object>> findBatch(BatchRequest request) {
-    return httpClient.get()
+    return httpClient.post()
         .uri(getBatchURI(request))
+        .send(createBatchBody(request))
         .responseSingle((response, content) -> content.asInputStream())
         .map(this::parseBatch)
         .flatMapMany(Flux::fromIterable)
-        .map(JsonMapFlattener::flatten)
-        .onErrorComplete();
+        .map(JsonMapFlattener::flatten);
+  }
+
+  private ByteBufFlux createBatchBody(BatchRequest request) {
+    var ids = request.getObjectKeys()
+        .stream()
+        .map(objectKey -> objectKey.values()
+            .iterator()
+            .next())
+        .toList();
+
+    try {
+      var requestBody = jsonMapper.writeValueAsString(Map.of("ids", ids));
+      return ByteBufFlux.fromString(Mono.just(requestBody));
+    } catch (JsonProcessingException e) {
+      throw new OrchestrateException("Could not map request body.", e);
+    }
   }
 
   @Override
