@@ -27,6 +27,26 @@ sourceModels:
     loader: yaml
     location: config/brp.yaml
 
+sourceRelations:
+  - sourceType: woz:WOZObject
+    property:
+      name: heeftAlsAdres
+      target: bag:Address
+      cardinality: 1
+      inverseName: isAdresVanWozObject
+      inverseCardinality: 0..*
+      keyMapping:
+        id: addressableObjectId
+  - sourceType: woz:WOZObject
+    property:
+      name: isVanPersoon
+      target: brp:Person
+      cardinality: 0..1
+      inverseName: isEigenaarVan
+      inverseCardinality: 0..*
+      keyMapping:
+        bsn: stakeholderOwner.burgerServiceNummer
+
 objectTypeMappings:
   Beschikking:
     sourceRoot: woz:WOZObject
@@ -40,15 +60,12 @@ objectTypeMappings:
       adres:
         pathMappings:
           path: heeftAlsAdres
-      isVoorObject:
-        pathMappings:
-          path:
-      #      steltVast:
-      #        pathMappings:
-      #          path: heeftWaarde
+#      isVoorObject:
+#        pathMappings:
+#          path:
       isVoor:
         pathMappings:
-          path: stakeholderOwner[0].bsn
+          path: isVanPersoon
 
   Waarde:
     sourceRoot: woz:WOZObject
@@ -59,3 +76,29 @@ objectTypeMappings:
       vastgesteldeWaarde:
         pathMapping:
           path: values[0].value
+
+  Adres:
+    sourceRoot: bag:Address
+    propertyMappings:
+      identificatie:
+        pathMappings:
+          path: id
+      straatnaam:
+        pathMappings:
+          path: street
+
+  Persoon:
+    sourceRoot: brp:Person
+    propertyMappings:
+      identificatie:
+        pathMappings:
+          path: id
+      bsn:
+        pathMappings:
+          path: bsn
+      naamAanschrijving:
+        pathMappings:
+          path: name
+      geslachtsaanduiding:
+        pathMappings:
+          path: sex

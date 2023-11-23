@@ -1,6 +1,9 @@
 logging:
   level:
     root: INFO
+    nl:
+      geostandaarden:
+        imx: DEBUG
 
 spring:
   autoconfigure:
@@ -29,7 +32,7 @@ orchestrate:
         headers:
           Fsc-Grant-Hash: $1$4$5AXwjdwNYt-Q6yE5KFVa7BLXghsBsDCqNge9_iSD1ZGwTlvr4kzsc_G0bUBz7XkCEmPsZ-8oDXRAwYxh_pQCgQ
         paths:
-          Address: adresses
+          Address: addresses
 
     woz:
       type: rest
@@ -45,6 +48,6 @@ orchestrate:
       options:
         baseUrl: ${OUTWAY_URL:https://fds-fieldlab-fsc-outway.apps.digilab.network}
         headers:
-          Fsc-Grant-Hash: $1$4$QXLMQWOewWa7N5Pj_6JKEOsFYmIqGJmlIT8dv2bHMbR9H6q_mKlqbmpxkOmnB-prbP5taHpAoLnqfYFeuL_N4Q
+          Fsc-Grant-Hash: $1$4$-9xYBNlMHvrUFY6z7cVqLY6fRMDZfLb2_auWeYUSgOOlgKT3FqFszX394YGdYTYu0eBw6AZnpmhd2lI63xjARg
         paths:
           Person: people

@@ -8,9 +8,10 @@ objectTypes:
       addressableObjectId:
         type: String
         cardinality: 1
-#      stakeholderOwner: TODO Nested object
-#        cardinality: 0..1
-#      stakeholderOccupant: TODO Nested object
+      stakeholderOwner.burgerServiceNummer:
+        type: String
+        cardinality: 1
+      #      stakeholderOccupant: TODO Nested object
 #        cardinality: 0..1
       values[0].id:
         type: String

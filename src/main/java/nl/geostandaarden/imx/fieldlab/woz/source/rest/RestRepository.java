@@ -35,7 +35,8 @@ public class RestRepository implements DataRepository {
         .uri(getObjectURI(request))
         .responseSingle((response, content) -> content.asInputStream())
         .map(this::parseObject)
-        .map(JsonMapFlattener::flatten);
+        .map(JsonMapFlattener::flatten)
+        .onErrorComplete();
   }
 
   @Override
@@ -45,7 +46,8 @@ public class RestRepository implements DataRepository {
         .responseSingle((response, content) -> content.asInputStream())
         .map(this::parseCollection)
         .flatMapMany(resource -> Flux.fromIterable(resource.getData()))
-        .map(JsonMapFlattener::flatten);
+        .map(JsonMapFlattener::flatten)
+        .onErrorComplete();
   }
 
   @Override
