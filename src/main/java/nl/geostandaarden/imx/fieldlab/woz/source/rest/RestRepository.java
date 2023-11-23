@@ -16,6 +16,7 @@ import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.DataRepository;
 import nl.geostandaarden.imx.orchestrate.model.ObjectType;
+import nl.geostandaarden.imx.orchestrate.model.Path;
 import org.springframework.vault.support.JsonMapFlattener;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -44,8 +45,15 @@ public class RestRepository implements DataRepository {
 
   @Override
   public Flux<Map<String, Object>> find(CollectionRequest request) {
+    var uri = getCollectionURI(request);
+    var filter = request.getFilter();
+
+    if (filter != null && filter.getPath().equals(Path.fromString("stakeholderOwner.burgerServiceNummer"))) {
+      uri = uri.concat("?bsn=" + filter.getValue());
+    }
+
     return httpClient.get()
-        .uri(getCollectionURI(request))
+        .uri(uri)
         .responseSingle((response, content) -> content.asInputStream())
         .map(this::parseCollection)
         .flatMapMany(resource -> Flux.fromIterable(resource.getData()))

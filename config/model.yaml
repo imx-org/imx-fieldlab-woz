@@ -14,13 +14,8 @@ objectTypes:
       isVoor:
         target: Persoon
         cardinality: 0..1
-        inverseName: beschikkingVanPersoon
+        inverseName: heeftBeschikking
         inverseCardinality: 0..*
-  #      isVoorObject:
-  #        target: WozObject
-  #        cardinality: 1
-  #        inverseName: heeftBeschikking
-  #        inverseCardinality: 0..*
 
   Waarde:
     attributes:
