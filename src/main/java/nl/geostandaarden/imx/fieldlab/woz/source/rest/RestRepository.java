@@ -72,8 +72,12 @@ public class RestRepository implements DataRepository {
             .next())
         .toList();
 
+    var idsKey = request.getObjectType()
+        .getName()
+        .equals("Person") ? "bsns" : "ids";
+
     try {
-      var requestBody = jsonMapper.writeValueAsString(Map.of("ids", ids));
+      var requestBody = jsonMapper.writeValueAsString(Map.of(idsKey, ids));
       return ByteBufFlux.fromString(Mono.just(requestBody));
     } catch (JsonProcessingException e) {
       throw new OrchestrateException("Could not map request body.", e);
