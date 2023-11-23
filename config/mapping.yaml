@@ -46,6 +46,15 @@ sourceRelations:
       inverseCardinality: 0..*
       keyMapping:
         bsn: stakeholderOwner.burgerServiceNummer
+  - sourceType: brp:Person
+    property:
+      name: heeftGeregistreerdAdres
+      target: bag:Address
+      cardinality: 1
+      inverseName: isAdresVanPersoon
+      inverseCardinality: 0..*
+      keyMapping:
+        id: registeredAddressId
 
 objectTypeMappings:
   Beschikking:
@@ -145,3 +154,6 @@ objectTypeMappings:
       geslachtsaanduiding:
         pathMappings:
           path: sex
+      verblijftIn:
+        pathMapping:
+          path: heeftGeregistreerdAdres

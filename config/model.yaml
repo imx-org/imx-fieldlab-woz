@@ -133,3 +133,9 @@ objectTypes:
       geslachtsaanduiding:
         type: String
         cardinality: 1
+    relations:
+      verblijftIn:
+        target: Verblijfsobject
+        cardinality: 0..1
+        inverseName: isVerblijfsobjectVan
+        inverseCardinality: 0..*
