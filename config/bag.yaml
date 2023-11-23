@@ -17,7 +17,12 @@ objectTypes:
       zipCode:
         type: String
         cardinality: 1
-      #      Municipality: TODO nested object
+      municipality.name:
+        type: String
+        cardinality: 1
+      municipality.code:
+        type: String
+        cardinality: 1
       purpose:
         type: String
         cardinality: 1

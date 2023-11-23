@@ -30,7 +30,7 @@ sourceModels:
 sourceRelations:
   - sourceType: woz:WOZObject
     property:
-      name: heeftAlsAdres
+      name: heeftVerblijfsobject
       target: bag:Address
       cardinality: 1
       inverseName: isAdresVanWozObject
@@ -57,12 +57,6 @@ objectTypeMappings:
       type:
         pathMappings:
           path: type
-      adres:
-        pathMappings:
-          path: heeftAlsAdres
-#      isVoorObject:
-#        pathMappings:
-#          path:
       isVoor:
         pathMappings:
           path: isVanPersoon
@@ -77,6 +71,32 @@ objectTypeMappings:
         pathMapping:
           path: values[0].value
 
+  WozObject:
+    sourceRoot: woz:WOZobject
+    propertyMappings:
+      wozObjectnummer:
+        pathMappings:
+          path: id
+      typeWozObject:
+        pathMappings:
+          path: type
+      ontleentAanduidingAan:
+        pathMapping:
+          path: heeftVerblijfsobject
+
+  Verblijfsobject:
+    sourceRoot: bag:Address
+    propertyMappings:
+      identificatie:
+        pathMappings:
+          path: id
+      gebruiksdoel:
+        pathMappings:
+          path: purpose
+      oppervlakte:
+        pathMappings:
+          path: surface
+
   Adres:
     sourceRoot: bag:Address
     propertyMappings:
@@ -86,6 +106,29 @@ objectTypeMappings:
       straatnaam:
         pathMappings:
           path: street
+      huisnummer:
+        pathMappings:
+          path: houseNumber
+      huisnummertoevoeging:
+        pathMappings:
+          path: houseNumberAddition
+      postcode:
+        pathMappings:
+          path: zipCode
+      oppervlakte:
+        pathMappings:
+          path: surface
+#      omschrijving:
+
+  Gemeente:
+    sourceRoot: bag:Address
+    propertyMappings:
+      code:
+        pathMappings:
+          path: municipality.code
+      naam:
+        pathMappings:
+          path: municipality.name
 
   Persoon:
     sourceRoot: brp:Person

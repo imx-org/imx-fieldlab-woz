@@ -5,9 +5,6 @@ objectTypes:
         type: String
         identifier: true
         cardinality: 1
-      type:
-        type: String
-        cardinality: 1
     relations:
       steltVast:
         target: Waarde
@@ -18,12 +15,6 @@ objectTypes:
         target: Persoon
         cardinality: 0..1
         inverseName: beschikkingVanPersoon
-        inverseCardinality: 0..*
-      #tijdelijk
-      adres:
-        target: Adres
-        cardinality: 1
-        inverseName: isAdresVan
         inverseCardinality: 0..*
   #      isVoorObject:
   #        target: WozObject
@@ -43,6 +34,46 @@ objectTypes:
 #      waardePeildatum:
 #        type: Date
 #        cardinality: 1
+    relations:
+      isVoor:
+        target: WozObject
+        cardinality: 1
+        inverseName: heeftWaarde
+        inverseCardinality: 0..*
+
+  WozObject:
+    attributes:
+      wozObjectnummer:
+        type: String
+        cardinality: 1
+      typeWozObject:
+        type: String
+        cardinality: 1
+    relations:
+      ontleentAanduidingAan:
+        target: Verblijfsobject
+        cardinality: 0..1
+        inverseName: isVerbondenMet
+        inverseCardinality: 0..*
+
+  Verblijfsobject:
+    attributes:
+      identificatie:
+        type: String
+        identifier: true
+        cardinality: 1
+      gebruiksdoel:
+        type: String
+        cardinality: 0..1
+      oppervlakte:
+        type: Integer
+        cardinality: 1
+    relations:
+      hoofdAdres:
+        target: Adres
+        cardinality: 1
+        inverseName: isHoofdadresVan
+        inverseCardinality: 0..*
 
   Adres:
     attributes:
@@ -53,22 +84,33 @@ objectTypes:
       straatnaam:
         type: String
         cardinality: 1
-  #      huisnummer:
-  #        type: Integer
-  #        cardinality: 1
-  #      huisnummertoevoeging:
-  #        type: String
-  #        cardinality: 0..1
-  #      postcode:
-  #        type: String
-  #        cardinality: 1
-  #      #      gemeente: TODO nested object
-  #      #      purpose:
-  #      #        type: String
-  #      #        cardinality: 1
-  #      oppervlakte:
-  #        type: Integer
-  #        cardinality: 1
+      huisnummer:
+        type: Integer
+        cardinality: 1
+      huisnummertoevoeging:
+        type: String
+        cardinality: 0..1
+      postcode:
+        type: String
+        cardinality: 1
+      oppervlakte:
+        type: Integer
+        cardinality: 1
+    relations:
+      gemeente:
+        target: Gemeente
+        cardinality: 1
+        inverseName: omvat
+        inverseCardinality: 0..*
+
+  Gemeente:
+    attributes:
+      code:
+        type: String
+        cardinality: 1
+      naam:
+        type: String
+        cardinality: 1
 
   Persoon:
     attributes:
