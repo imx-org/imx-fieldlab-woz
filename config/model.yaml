@@ -93,8 +93,8 @@ objectTypes:
       postcode:
         type: String
         cardinality: 1
-      oppervlakte:
-        type: Integer
+      omschrijving:
+        type: String
         cardinality: 1
     relations:
       gemeente:
